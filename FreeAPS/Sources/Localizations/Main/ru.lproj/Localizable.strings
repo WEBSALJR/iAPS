@@ -46,6 +46,9 @@
 /* Button */
 "Done" = "Готово";
 
+/* Bolus View footer */
+"Last loop %@ minutes ago. Complete or cancel this meal/bolus transaction to allow for next loop cycle to run" = "Последний цикл был %@ минут назад. Завершите или отмените текущий прием пищи/инсулина, чтобы запустить следующий цикл петли";
+
 /* Calender Option */
 "Display Emojis as Labels" = "Отображать эмодзи в качестве меток";
 
@@ -63,6 +66,9 @@
 
 /*  */
 "Agree and continue" = "Согласиться и Продолжить";
+
+/* */
+"Log external insulin" = "Записать внешний инсулин";
 
 /* Bolus progress view */
 "of" = "из";
@@ -86,7 +92,7 @@
 "Suggested at" = "Предложено в";
 
 /* Headline in enacted pop up (at: at what time) */
-"Error at" = "Ошибка в";
+"Status at" = "Статус в";
 
 /* Bolus View Meal Summary Header */
 "Meal Summary" = "Итог питания";
@@ -106,6 +112,9 @@
 /* For the  Bolus View pop-up */
 "Fatty Meal" = "Жирная пища";
 
+/* Bolus option */
+"Hypo Treatment" = "Гипогликемия";
+
 /* For the  Bolus View pop-up */
 "Full Bolus" = "Полный болюс";
 
@@ -114,6 +123,9 @@
 
 /* For the  Bolus View pop-up */
 "Fatty Meal Factor" = "Фактор жирной пищи";
+
+/* Footer */
+"Carbs and previous insulin are included in the eventual glucose prediction." = "Углеводы и ранее введенный инсулин учитываются при прогнозировании уровня глюкозы в крови.";
 
 /* For the  Bolus View pop-up */
 "Result" = "Итого";
@@ -467,6 +479,9 @@ Enact a temp Basal or a temp target */
 /* Max setting */
 "Max Carbs" = "Максимум углеводов";
 
+/* Max carbs description */
+"Maximum amount of carbs (g) you can add each entry" = "Максимум углеводов (г), который можно внести в запись";
+
 /* */
 "Pump Settings" = "Настройки помпы";
 
@@ -625,6 +640,9 @@ Enact a temp Basal or a temp target */
 
 /* Treatments list */
 "Treatments" = "События";
+
+/* Hypo Treatment Preset */
+"Treatment" = "Терапия";
 
 /* " min" in Treatments list */
 " min" = " мин";
@@ -1234,7 +1252,7 @@ Enact a temp Basal or a temp target */
 "Can't enact the new loop cycle recommendation, because a Bolus is in progress. Wait for next loop cycle" = "Не удается выполнить рекомендацию по новому циклу петли, так как вводится болюс. Подождите новый цикл петли";
 
 /* Pump Error */
-"Error: Pump is Busy." = "Ошибка: Помпа занята.";
+"Pump is Busy." = "Помпа занята.";
 
 /* -------------- Developer settings ---------------------- */
 /* Debug options */
@@ -1921,89 +1939,116 @@ Enact a temp Basal or a temp target */
 /* Smoothing of CGM readings */
 "Smooth Glucose Value" = "Сглаживать значения глюкозы";
 /* ------------------------------------------- Sharing -------------------------------------------------------*/
-/* */
+/* Setting Title */
 
-"Woman" = "Woman";
+"Sharing" = "Делиться статистикой";
 
-/* */
-"Man" = "Man";
+/* Share and Backup page header */
+"Share and Backup" = "Общий доступ и резервирование";
 
-/* */
+/* Section 1 title */
+"Upload settings and statistics" = "Выгружать настройки и статистику";
+
+/* On-off toggle */
+"Share and Backup all of your Settings and Statistics" = "Делиться и резервно копировать все настройки и статистику";
+
+/* Title of dropdown menu */
+"Sex" = "Пол";
+
+/* Sex dropdown menu option */
+"Woman" = "Женский";
+
+/* Sex dropdown menu option */
+"Man" = "Мужской";
+
+/* Sex dropdown menu option */
 "Other" = "Прочее";
 
-/* */
-"Secret" = "Secret";
+/* Sex dropdown menu option */
+"Secret" = "Скрыть";
+
+/* Title of birth date field */
+"Birth Date" = "День рождения";
+
+/* Share and Backup info text */
+"\nIf you enable \"Share and Backup\" daily backups of your settings and statistics will be made to online database.\n\nMake sure to copy and save your recovery token below. The recovery token is required to import your settings to another phone when using the onboarding view." = "\nЕсли включить \"Общий доступ и резервное копирование\", то ежедневные резервные копии ваших настроек и статистики будут сохраняться в онлайн-базе данных.\n\nОбязательно скопируйте и сохраните свой токен восстановления, указанный ниже. Токен восстановления необходим для импорта настроек на другой телефон при использовании встроенного режима просмотра.";
+
+/* Section title if sharing off */
+"Share Bare Minimum" = "Минимально делиться";
+
+/* Minimum share toggle */
+"Just iAPS version number" = "Только номер версии iAPS";
+
+/* Share info text */
+"Every bit of information you choose to share is uploaded anonymously. To prevent duplicate uploads, the data is identified with a unique random string saved on your phone, the recovery token." = "Любая информация, которой вы хотите поделиться, загружается анонимно. Чтобы предотвратить повторную загрузку, данные идентифицируются с помощью уникальной случайной строки, сохраненной на вашем телефоне - токена восстановления.";
+
+/* Token section title */
+"Your recovery token" = "Ваш токен восстановления";
+
+/* Token display button */
+"Tap to display" = "Нажать для отображения";
+
+/* Token copy button */
+"Long press to copy" = "Длительно нажмите, чтобы скопировать";
+
+/* Link to statistics button */
+"View Personal Statistics" = "Просмотр личной статистики";
 
 /* */
-"Birth Date" = "Birth Date";
+"Your identifier" = "Ваш идентификатор";
 
 /* */
-"Share all of your Statistics" = "Share all of your Statistics";
+"Share your data anonymously" = "Делитесь данными анонимно";
 
-/* */
-"Just iAPS version number" = "Just iAPS version number";
-
-/* */
-"Share Bare Minimum" = "Share Bare Minimum";
-
-/* */
-"Every bit of information you choose to share is uploaded anonymously. To prevent duplicate uploads, the data is identified with a unique random string saved on your phone." = "Every bit of information you choose to share is uploaded anonymously. To prevent duplicate uploads, the data is identified with a unique random string saved on your phone.";
-
-/* */
-"Tap to display" = "Tap to display";
-
-/* */
-"Your identifier" = "Your identifier";
-
-/* */
-"Share your data anonymously" = "Share your data anonymously";
+/* Setting Title */
+"Sharing" = "Делиться статистикой";
 
 /* ——————————Contact Image ————————*/
 /* Contact Image, contacts list - prefix before the contact given name */
 
-"Contact" = "Contact";
+"Contact" = "Контакт";
 
 /* Contact Image, settings, header of the contacts list */
-"Contacts" = "Contacts";
+"Contacts" = "Контакты";
 
 /* Contact Image, settings, save your changes reminedr */
-"Don't forget to save your changes." = "Don't forget to save your changes.";
+"Don't forget to save your changes." = "Не забудьте сохранить внесенные изменения.";
 
 /* Contact Image, settings, message about need to access contacts */
-"iAPS needs access to your contacts for this feature to work" = "iAPS needs access to your contacts for this feature to work";
+"iAPS needs access to your contacts for this feature to work" = "Для работы этой функции iAPS необходим доступ к вашим контактам";
 
 /* Contact Image, settings, button to grant access to contacts */
-"Grant iAPS access to contacts" = "Grant iAPS access to contacts";
+"Grant iAPS access to contacts" = "Предоставить iAPS доступ к контактам";
 
 /* Contact Image, settings, message when access to contacts denied */
-"Access to contacts denied" = "Access to contacts denied";
+"Access to contacts denied" = "Доступ к контактам был запрещен";
 
 /* Contact Image, settings, message when access to contacts restricted */
-"Access to contacts is restricted (parental control?)" = "Access to contacts is restricted (parental control?)";
+"Access to contacts is restricted (parental control?)" = "Доступ к контактам ограничен (родительский контроль?)";
 
 /* Contact Image, settings, message when access to contacts is in unknown state */
-"Access to contacts - unknown state" = "Access to contacts - unknown state";
+"Access to contacts - unknown state" = "Доступ к контактам - неизвестное состояние";
 
 /* Contact Image, settings, short description of the feature */
-"A Contact Image can be used to get live updates from iAPS to your Apple Watch Contact complication and/or your iPhone Contact widget." = "A Contact Image can be used to get live updates from iAPS to your Apple Watch Contact complication and/or your iPhone Contact widget.";
+"A Contact Image can be used to get live updates from iAPS to your Apple Watch Contact complication and/or your iPhone Contact widget." = "Изображение контакта можно использовать для получения обновлений от iAPS в режиме реального времени на Apple Watch контакт ярлыке и/или на iPhone контакт виджете.";
 
 /* Contact Image, settings, main header */
-"Contact Image" = "Contact Image";
+"Contact Image" = "Изображение контакта";
 
 /* Contact Image, settings, label for the layout picker */
-"Layout" = "Layout";
+"Layout" = "Расположение";
 
 /* Contact Image, settings, single layout name */
-"Single" = "Single";
+"Single" = "Одиночный";
 
 /* Contact Image, settings, split layout name */
-"Split" = "Split";
+"Split" = "Раздельный";
 
 /* Contact Image, settings, outer ring - don't show */
-"DontShowRing" = "Don't show";
+"DontShowRing" = "Не отображать";
 
 /* Contact Image, settings, outer ring - Loop status */
-"LoopStatusRing" = "Loop status";
+"LoopStatusRing" = "Статус петли";
 
 /* Contact Image, settings, outer ring - IOB */
 "IOBRing" = "IOB";
@@ -2015,73 +2060,73 @@ Enact a temp Basal or a temp target */
 "IOB+COBRing" = "IOB+COB";
 
 /* Contact Image, settings, label for the primary value picker */
-"Primary" = "Primary";
+"Primary" = "Основной";
 
 /* Contact Image, settings, label for the top value picker */
-"Top" = "Top";
+"Top" = "Сверху";
 
 /* Contact Image, settings, label for the bottom value picker */
-"Bottom" = "Bottom";
+"Bottom" = "Снизу";
 
 /* Contact Image, settings, header for the outer ring section */
-"Ring" = "Ring";
+"Ring" = "Кольцо";
 
 /* Contact Image, settings, label for the outer ring picker */
-"Outer" = "Outer";
+"Outer" = "Вид";
 
 /* Contact Image, settings, label for the ring width picker */
-"Width" = "Width";
+"Width" = "Ширина";
 
 /* Contact Image, settings, label for the ring gap picker */
-"Gap" = "Gap";
+"Gap" = "Разрыв";
 
 /* Contact Image, settings, header for the font section */
-"Font" = "Font";
+"Font" = "Шрифт";
 
 /* Contact Image, settings, label for the font size picker */
-"Size" = "Size";
+"Size" = "Размер";
 
 /* Contact Image, settings, label for the secondary font size picker */
-"Secondary size" = "Secondary size";
+"Secondary size" = "Второй размер";
 
 /* Contact Image, settings, label for the font tracking picker (tracking - horizontal spacing between letters) */
-"Tracking" = "Tracking";
+"Tracking" = "Плотность";
 
 /* Contact Image, settings, label for the font weight picker */
-"Weight" = "Weight";
+"Weight" = "Толщина";
 
 /* Contact Image, settings, label for the dark-mode switcher */
-"Dark mode" = "Dark mode";
+"Dark mode" = "Ночной режим";
 
 /* Contact Image, settings, tighter font tracking */
-"TighterFontTracking" = "Tighter";
+"TighterFontTracking" = "Более плотно";
 
 /* Contact Image, settings, tight font tracking */
-"TightFontTracking" = "Tight";
+"TightFontTracking" = "Плотно";
 
 /* Contact Image, settings, normal font tracking */
 "NormalFontTracking" = "Норма";
 
 /* Contact Image, settings, wide font tracking */
-"WideFontTracking" = "Wide";
+"WideFontTracking" = "Широко";
 
 /* Contact Image, settings, light font weight */
-"LightFontWeight" = "Light";
+"LightFontWeight" = "Светлый";
 
 /* Contact Image, settings, regular font weight */
-"RegularFontWeight" = "Regular";
+"RegularFontWeight" = "Нормальный";
 
 /* Contact Image, settings, medium font weight */
-"MediumFontWeight" = "Medium";
+"MediumFontWeight" = "Средний";
 
 /* Contact Image, settings, semibold font weight */
-"SemiboldFontWeight" = "Semibold";
+"SemiboldFontWeight" = "Полужирный";
 
 /* Contact Image, settings, bold font weight */
-"BoldFontWeight" = "Bold";
+"BoldFontWeight" = "Жирный";
 
 /* Contact Image, settings, black font weight (black is "very bold") */
-"BlackFontWeight" = "Black";
+"BlackFontWeight" = "Очень жирный";
 
 /* Contact Image, settings, don't display any value */
 "NoneContactValue" = "Не подан";
@@ -2090,16 +2135,16 @@ Enact a temp Basal or a temp target */
 "GlucoseContactValue" = "Глюкоза";
 
 /* Contact Image, settings, Eventual BG (data to display) */
-"EventualBGContactValue" = "Eventual BG";
+"EventualBGContactValue" = "Предполагаемая ГК";
 
 /* Contact Image, settings, Delta (data to display) */
-"DeltaContactValue" = "Delta";
+"DeltaContactValue" = "Дельта";
 
 /* Contact Image, settings, Trend (data to display) */
 "TrendContactValue" = "Тенденция";
 
 /* Contact Image, settings, Last loop time (data to display) */
-"LastLoopTimeContactValue" = "Last loop time";
+"LastLoopTimeContactValue" = "Время последней петли";
 
 /* Contact Image, settings, COB (data to display) */
 "COBContactValue" = "COB";
@@ -2108,7 +2153,7 @@ Enact a temp Basal or a temp target */
 "IOBContactValue" = "IOB";
 
 /* Contact Image, settings, loop status (data to display) */
-"LoopStatusContactValue" = "Loop status";
+"LoopStatusContactValue" = "Статус петли";
 
 /* ---------------------------------------------------------------------------------------------------------------
   Infotexts from openaps.docs and androidaps.docs
@@ -2475,6 +2520,15 @@ Enact a temp Basal or a temp target */
 
 /* UI/UX option */
 "Display Time Interval Setting Button" = "Отображать кнопку выбора интервала времени";
+
+/* UI/UX option */
+"Never display the small glucose chart when scrolling" = "Не отображать график уровня глюкозы при прокрутке";
+
+/* UI/UX option */
+"Disable Hypo Treatments" = "Отключить гипогликемии";
+
+/* UI/UX option */
+"Display Glucose Delta" = "Отображать дельту глюкозы";
 
 /* Setting title */
 "Bolus Calculator" = "Калькулятор болюса";

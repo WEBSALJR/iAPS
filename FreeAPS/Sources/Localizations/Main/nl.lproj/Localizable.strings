@@ -23,7 +23,7 @@
 "Status" = "Status";
 
 /* Alert when adding large amount without bolusing */
-"\nAmount is more than your Max Bolus setting! \nAre you sure you want to add " = "\nDeze hoeveelheid is meer dan je instelling van je maximale bolus! \nWeet je zeker dat je deze hoeveelheid wilt toedienen? \nDeze hoeveelheid is meer dan je instelling van je maximale bolus! \nWaarschuw bij toedienen van een hoge hoeveelheid zonder te bolussen ";
+"\nAmount is more than your Max Bolus setting! \nAre you sure you want to add " = "\nDeze hoeveelheid is meer dan je instelling van je maximale bolus! \nWeet je zeker dat je deze hoeveelheid wilt toedienen? \nDeze hoeveelheid is meer dan je instelling van je maximale bolus! \nWaarschuw bij toedienen van een hoge hoeveelheid zonder een bolus toe te dienen ";
 
 /* Header */
 "Enact Bolus" = "Bolus geven";
@@ -46,6 +46,9 @@
 /* Button */
 "Done" = "OK";
 
+/* Bolus View footer */
+"Last loop %@ minutes ago. Complete or cancel this meal/bolus transaction to allow for next loop cycle to run" = "Laatste update is %@ minuten geleden. Voltooi of annuleer deze maaltijd/bolus opdracht om de volgende loopupdate te laten draaien";
+
 /* Calender Option */
 "Display Emojis as Labels" = "Emoji’s als labels weergeven";
 
@@ -63,6 +66,9 @@
 
 /*  */
 "Agree and continue" = "Akkoord en doorgaan";
+
+/* */
+"Log external insulin" = "Externe insuline registreren";
 
 /* Bolus progress view */
 "of" = "van";
@@ -86,7 +92,7 @@
 "Suggested at" = "Voorgesteld op";
 
 /* Headline in enacted pop up (at: at what time) */
-"Error at" = "Foutmelding op";
+"Status at" = "Status op";
 
 /* Bolus View Meal Summary Header */
 "Meal Summary" = "Maaltijd overzicht";
@@ -106,6 +112,9 @@
 /* For the  Bolus View pop-up */
 "Fatty Meal" = "Vette maaltijd";
 
+/* Bolus option */
+"Hypo Treatment" = "Hypobehandeling";
+
 /* For the  Bolus View pop-up */
 "Full Bolus" = "Volledige bolus";
 
@@ -114,6 +123,9 @@
 
 /* For the  Bolus View pop-up */
 "Fatty Meal Factor" = "Vette maaltijd factor";
+
+/* Footer */
+"Carbs and previous insulin are included in the eventual glucose prediction." = "Koolhydraten en vorige insuline zijn opgenomen in de uiteindelijke glucosevoorspelling.";
 
 /* For the  Bolus View pop-up */
 "Result" = "Resultaat";
@@ -137,7 +149,7 @@
 "No suggestion" = "Geen suggestie";
 
 /* Replace pod text in Header */
-"Replace pod" = "Vervang Pod";
+"Replace pod" = "Vervang pod";
 
 /* Add carbs screen */
 "Add Carbs" = "Koolhydraten toevoegen";
@@ -251,7 +263,7 @@
 "Autotune" = "Autotune";
 
 /*  */
-"Basal profile" = "Basaal profiel";
+"Basal profile" = "Basaalprofiel";
 
 /*  */
 "Carb ratio" = "Koolhydraat verhouding";
@@ -275,7 +287,7 @@
 "Add" = "Toevoegen";
 
 /*  */
-"Basal Profile" = "Basaal profiel";
+"Basal Profile" = "Basaalprofiel";
 
 /* Rate basal profile */
 "Rate" = "Waarde";
@@ -354,7 +366,7 @@ Enact a temp Basal or a temp target */
 "Invalid URL" = "Ongeldige URL";
 
 /*  */
-"Local glucose source" = "Lokale glucose bron";
+"Local glucose source" = "Lokale glucosebron";
 
 /* Header */
 "Nightscout Config" = "Nightscout instellingen";
@@ -466,6 +478,9 @@ Enact a temp Basal or a temp target */
 
 /* Max setting */
 "Max Carbs" = "Max koolhydraten";
+
+/* Max carbs description */
+"Maximum amount of carbs (g) you can add each entry" = "Maximale hoeveelheid koolhydraten (g) die je elke invoer kunt toevoegen";
 
 /* */
 "Pump Settings" = "Pomp instellingen";
@@ -625,6 +640,9 @@ Enact a temp Basal or a temp target */
 
 /* Treatments list */
 "Treatments" = "Behandelingen";
+
+/* Hypo Treatment Preset */
+"Treatment" = "Behandeling";
 
 /* " min" in Treatments list */
 " min" = "min";
@@ -1234,7 +1252,7 @@ Enact a temp Basal or a temp target */
 "Can't enact the new loop cycle recommendation, because a Bolus is in progress. Wait for next loop cycle" = "Kan het nieuwe loopcyclus advies niet uitvoeren, omdat er een bolus bezig is. Wacht op de volgende cyclus";
 
 /* Pump Error */
-"Error: Pump is Busy." = "Fout: Pomp is bezig.";
+"Pump is Busy." = "Je pomp is bezig.";
 
 /* -------------- Developer settings ---------------------- */
 /* Debug options */
@@ -1921,36 +1939,60 @@ Enact a temp Basal or a temp target */
 /* Smoothing of CGM readings */
 "Smooth Glucose Value" = "Vloeiende glucosewaarde";
 /* ------------------------------------------- Sharing -------------------------------------------------------*/
-/* */
+/* Setting Title */
 
+"Sharing" = "Delen van statistieken";
+
+/* Share and Backup page header */
+"Share and Backup" = "Delen en back-up";
+
+/* Section 1 title */
+"Upload settings and statistics" = "Upload instellingen en statistieken";
+
+/* On-off toggle */
+"Share and Backup all of your Settings and Statistics" = "Deel en back-up al uw instellingen en statistieken";
+
+/* Title of dropdown menu */
+"Sex" = "Geslacht";
+
+/* Sex dropdown menu option */
 "Woman" = "Vrouw";
 
-/* */
+/* Sex dropdown menu option */
 "Man" = "Man";
 
-/* */
+/* Sex dropdown menu option */
 "Other" = "Anders";
 
-/* */
+/* Sex dropdown menu option */
 "Secret" = "Geheim";
 
-/* */
+/* Title of birth date field */
 "Birth Date" = "Geboortedatum";
 
-/* */
-"Share all of your Statistics" = "Deel al je statistieken";
+/* Share and Backup info text */
+"\nIf you enable \"Share and Backup\" daily backups of your settings and statistics will be made to online database.\n\nMake sure to copy and save your recovery token below. The recovery token is required to import your settings to another phone when using the onboarding view." = "\nAls u \"Delen en back-uppen\" inschakelt, worden er dagelijks back-ups van uw instellingen en statistieken gemaakt in een online database.\n\nZorg ervoor dat u uw hersteltoken hieronder kopieert en opslaat. Het hersteltoken is nodig om uw instellingen te importeren naar een andere telefoon wanneer u de onboarding-weergave gebruikt.";
 
-/* */
-"Just iAPS version number" = "Alleen iAPS versienummer";
-
-/* */
+/* Section title if sharing off */
 "Share Bare Minimum" = "Deel alleen het minimale";
 
-/* */
-"Every bit of information you choose to share is uploaded anonymously. To prevent duplicate uploads, the data is identified with a unique random string saved on your phone." = "Alle informatie die je wilt delen, wordt anoniem geüpload. Om dubbele uploads te voorkomen, worden de gegevens geïdentificeerd met een unieke willekeurige tekenreeks die op je apparaat is opgeslagen.";
+/* Minimum share toggle */
+"Just iAPS version number" = "Alleen iAPS versienummer";
 
-/* */
+/* Share info text */
+"Every bit of information you choose to share is uploaded anonymously. To prevent duplicate uploads, the data is identified with a unique random string saved on your phone, the recovery token." = "Elk stukje informatie dat je wilt delen, wordt anoniem geüpload. Om dubbele uploads te voorkomen, worden de gegevens geïdentificeerd met een unieke willekeurige tekenreeks die op je telefoon is opgeslagen, het hersteltoken.";
+
+/* Token section title */
+"Your recovery token" = "Je herstelcode";
+
+/* Token display button */
 "Tap to display" = "Tik om weer te geven";
+
+/* Token copy button */
+"Long press to copy" = "Lang ingedrukt houden om te kopiëren";
+
+/* Link to statistics button */
+"View Personal Statistics" = "Persoonlijke statistieken bekijken";
 
 /* */
 "Your identifier" = "Jouw identificatie";
@@ -1958,49 +2000,52 @@ Enact a temp Basal or a temp target */
 /* */
 "Share your data anonymously" = "Deel je gegevens anoniem";
 
+/* Setting Title */
+"Sharing" = "Delen van statistieken";
+
 /* ——————————Contact Image ————————*/
 /* Contact Image, contacts list - prefix before the contact given name */
 
 "Contact" = "Contact";
 
 /* Contact Image, settings, header of the contacts list */
-"Contacts" = "Contacts";
+"Contacts" = "Contacten";
 
 /* Contact Image, settings, save your changes reminedr */
-"Don't forget to save your changes." = "Don't forget to save your changes.";
+"Don't forget to save your changes." = "Vergeet niet om je wijzigingen op te slaan.";
 
 /* Contact Image, settings, message about need to access contacts */
-"iAPS needs access to your contacts for this feature to work" = "iAPS needs access to your contacts for this feature to work";
+"iAPS needs access to your contacts for this feature to work" = "iAPS heeft toegang tot jouw contacten nodig om deze functie te laten werken";
 
 /* Contact Image, settings, button to grant access to contacts */
-"Grant iAPS access to contacts" = "Grant iAPS access to contacts";
+"Grant iAPS access to contacts" = "Geef toegang tot iAPS aan contacten";
 
 /* Contact Image, settings, message when access to contacts denied */
-"Access to contacts denied" = "Access to contacts denied";
+"Access to contacts denied" = "Toegang tot contactpersonen geweigerd";
 
 /* Contact Image, settings, message when access to contacts restricted */
-"Access to contacts is restricted (parental control?)" = "Access to contacts is restricted (parental control?)";
+"Access to contacts is restricted (parental control?)" = "De toegang tot contacten is beperkt (ouderlijk toezicht?)";
 
 /* Contact Image, settings, message when access to contacts is in unknown state */
-"Access to contacts - unknown state" = "Access to contacts - unknown state";
+"Access to contacts - unknown state" = "Toegang tot contacten - onbekende staat";
 
 /* Contact Image, settings, short description of the feature */
-"A Contact Image can be used to get live updates from iAPS to your Apple Watch Contact complication and/or your iPhone Contact widget." = "A Contact Image can be used to get live updates from iAPS to your Apple Watch Contact complication and/or your iPhone Contact widget.";
+"A Contact Image can be used to get live updates from iAPS to your Apple Watch Contact complication and/or your iPhone Contact widget." = "Contactafbeelding kan gebruikt worden om live updates van iAPS te krijgen tot jouw Apple Watch Contact complicatie en/of jouw iPhone Contact widget.";
 
 /* Contact Image, settings, main header */
-"Contact Image" = "Contact Image";
+"Contact Image" = "Contactfoto";
 
 /* Contact Image, settings, label for the layout picker */
 "Layout" = "Layout";
 
 /* Contact Image, settings, single layout name */
-"Single" = "Single";
+"Single" = "Enkel";
 
 /* Contact Image, settings, split layout name */
-"Split" = "Split";
+"Split" = "Splitsen";
 
 /* Contact Image, settings, outer ring - don't show */
-"DontShowRing" = "Don't show";
+"DontShowRing" = "Verbergen";
 
 /* Contact Image, settings, outer ring - Loop status */
 "LoopStatusRing" = "Loop status";
@@ -2015,73 +2060,73 @@ Enact a temp Basal or a temp target */
 "IOB+COBRing" = "IOB+COB";
 
 /* Contact Image, settings, label for the primary value picker */
-"Primary" = "Primary";
+"Primary" = "Primair";
 
 /* Contact Image, settings, label for the top value picker */
-"Top" = "Top";
+"Top" = "Bovenaan";
 
 /* Contact Image, settings, label for the bottom value picker */
-"Bottom" = "Bottom";
+"Bottom" = "Onderaan";
 
 /* Contact Image, settings, header for the outer ring section */
 "Ring" = "Ring";
 
 /* Contact Image, settings, label for the outer ring picker */
-"Outer" = "Outer";
+"Outer" = "Buitenste";
 
 /* Contact Image, settings, label for the ring width picker */
-"Width" = "Width";
+"Width" = "Breedte";
 
 /* Contact Image, settings, label for the ring gap picker */
-"Gap" = "Gap";
+"Gap" = "Afstand";
 
 /* Contact Image, settings, header for the font section */
 "Font" = "Font";
 
 /* Contact Image, settings, label for the font size picker */
-"Size" = "Size";
+"Size" = "Grootte";
 
 /* Contact Image, settings, label for the secondary font size picker */
-"Secondary size" = "Secondary size";
+"Secondary size" = "Secundaire grootte";
 
 /* Contact Image, settings, label for the font tracking picker (tracking - horizontal spacing between letters) */
 "Tracking" = "Tracking";
 
 /* Contact Image, settings, label for the font weight picker */
-"Weight" = "Weight";
+"Weight" = "Dikte";
 
 /* Contact Image, settings, label for the dark-mode switcher */
-"Dark mode" = "Dark mode";
+"Dark mode" = "Nachtmodus";
 
 /* Contact Image, settings, tighter font tracking */
-"TighterFontTracking" = "Tighter";
+"TighterFontTracking" = "Strakker";
 
 /* Contact Image, settings, tight font tracking */
-"TightFontTracking" = "Tight";
+"TightFontTracking" = "Strak";
 
 /* Contact Image, settings, normal font tracking */
 "NormalFontTracking" = "TIR ";
 
 /* Contact Image, settings, wide font tracking */
-"WideFontTracking" = "Wide";
+"WideFontTracking" = "Breed";
 
 /* Contact Image, settings, light font weight */
-"LightFontWeight" = "Light";
+"LightFontWeight" = "Licht";
 
 /* Contact Image, settings, regular font weight */
-"RegularFontWeight" = "Regular";
+"RegularFontWeight" = "Standaard";
 
 /* Contact Image, settings, medium font weight */
 "MediumFontWeight" = "Medium";
 
 /* Contact Image, settings, semibold font weight */
-"SemiboldFontWeight" = "Semibold";
+"SemiboldFontWeight" = "Semi-vetgedrukt";
 
 /* Contact Image, settings, bold font weight */
-"BoldFontWeight" = "Bold";
+"BoldFontWeight" = "Vetgedrukt";
 
 /* Contact Image, settings, black font weight (black is "very bold") */
-"BlackFontWeight" = "Black";
+"BlackFontWeight" = "Extra dik";
 
 /* Contact Image, settings, don't display any value */
 "NoneContactValue" = "Geen";
@@ -2090,7 +2135,7 @@ Enact a temp Basal or a temp target */
 "GlucoseContactValue" = "Glucosewaarde";
 
 /* Contact Image, settings, Eventual BG (data to display) */
-"EventualBGContactValue" = "Eventual BG";
+"EventualBGContactValue" = "Uiteindelijke BG";
 
 /* Contact Image, settings, Delta (data to display) */
 "DeltaContactValue" = "Delta";
@@ -2099,7 +2144,7 @@ Enact a temp Basal or a temp target */
 "TrendContactValue" = "Trend";
 
 /* Contact Image, settings, Last loop time (data to display) */
-"LastLoopTimeContactValue" = "Last loop time";
+"LastLoopTimeContactValue" = "Laatste loop tijd";
 
 /* Contact Image, settings, COB (data to display) */
 "COBContactValue" = "COB";
@@ -2479,6 +2524,15 @@ Eenvoudig gezegd, de Dynamische Carb Ratio past de koolhydraatverhouding aan op 
 
 /* UI/UX option */
 "Display Time Interval Setting Button" = "Knop voor tijdinterval weergeven";
+
+/* UI/UX option */
+"Never display the small glucose chart when scrolling" = "Laat de kleine glucosegrafiek nooit zien tijdens het scrollen";
+
+/* UI/UX option */
+"Disable Hypo Treatments" = "Hypobehandelingen uitschakelen";
+
+/* UI/UX option */
+"Display Glucose Delta" = "Glucose delta weergeven";
 
 /* Setting title */
 "Bolus Calculator" = "Bolus calculator";

@@ -52,3 +52,15 @@ struct GlucoseData: Identifiable {
     var time: Date
     let id = UUID()
 }
+
+struct IOBData: Identifiable {
+    var date: Date
+    var iob: Decimal
+    var cob: Decimal
+    var id = UUID()
+}
+
+struct tddData {
+    var date: Date
+    var tdd: Decimal
+}

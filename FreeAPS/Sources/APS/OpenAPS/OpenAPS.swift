@@ -21,6 +21,10 @@ final class OpenAPS {
     func determineBasal(currentTemp: TempBasal, clock: Date = Date()) -> Future<Suggestion?, Never> {
         Future { promise in
             self.processQueue.async {
+                let start = Date.now
+
+                var now = Date.now
+
                 debug(.openAPS, "Start determineBasal")
                 // clock
                 self.storage.save(clock, as: Monitor.clock)
@@ -36,7 +40,14 @@ final class OpenAPS {
                 // To do: remove this struct.
                 let dynamicVariables = self.loadFileFromStorage(name: Monitor.dynamicVariables)
 
-                var now = Date.now
+                let tdd = CoreDataStorage().fetchInsulinDistribution().first
+
+                print(
+                    "Time for Loading files \(-1 * now.timeIntervalSinceNow) seconds"
+                )
+
+                now = Date.now
+
                 let meal = self.meal(
                     pumphistory: pumpHistory,
                     profile: profile,
@@ -45,7 +56,9 @@ final class OpenAPS {
                     carbs: carbs,
                     glucose: glucose
                 )
-                print("Time for Determine Basal: step after meal module \(-1 * now.timeIntervalSinceNow) seconds")
+                print(
+                    "Time for Meal module \(-1 * now.timeIntervalSinceNow) seconds, total: \(-1 * start.timeIntervalSinceNow)"
+                )
 
                 self.storage.save(meal, as: Monitor.meal)
 
@@ -59,7 +72,9 @@ final class OpenAPS {
                     autosens: autosens.isEmpty ? .null : autosens
                 )
                 self.storage.save(iob, as: Monitor.iob)
-                print("Time for Determine Basal: step after IOB module \(-1 * now.timeIntervalSinceNow) seconds")
+                print(
+                    "Time for IOB module \(-1 * now.timeIntervalSinceNow) seconds, total: \(-1 * start.timeIntervalSinceNow)"
+                )
 
                 // determine-basal
                 let reservoir = self.loadFileFromStorage(name: Monitor.reservoir)
@@ -77,6 +92,7 @@ final class OpenAPS {
                     dynamicVariables: dynamicVariables
                 )
 
+                now = Date.now
                 // The OpenAPS JS algorithm layer
                 let suggested = self.determineBasal(
                     glucose: glucose,
@@ -90,21 +106,35 @@ final class OpenAPS {
                     dynamicVariables: dynamicVariables
                 )
 
+                print(
+                    "Time for Determine Basal module \(-1 * now.timeIntervalSinceNow) seconds, total: \(-1 * start.timeIntervalSinceNow)"
+                )
+
                 debug(.openAPS, "SUGGESTED: \(suggested)")
 
                 // Update Suggestion
                 if var suggestion = Suggestion(from: suggested) {
-                    // Add some reasons
+                    now = Date.now
+                    // Process any eventual middleware basal rate
+                    if let newSuggestion = self.overrideBasal(alteredProfile: alteredProfile, oref0Suggestion: suggestion) {
+                        suggestion = newSuggestion
+                    }
+                    // Add some reasons, when needed
                     suggestion.reason = self.reasons(
                         reason: suggestion.reason,
                         suggestion: suggestion,
                         preferences: preferencesData,
-                        profile: alteredProfile
+                        profile: alteredProfile,
+                        tdd: tdd
                     )
                     // Update time
                     suggestion.timestamp = suggestion.deliverAt ?? clock
                     // Save
                     self.storage.save(suggestion, as: Enact.suggested)
+
+                    print(
+                        "Time for updating and saving reasons: \(-1 * now.timeIntervalSinceNow) seconds, total: \(-1 * start.timeIntervalSinceNow)"
+                    )
 
                     promise(.success(suggestion))
                 } else {
@@ -205,7 +235,7 @@ final class OpenAPS {
                 let freeaps = self.loadFileFromStorage(name: FreeAPS.settings)
                 let preferencesData = Preferences(from: preferences)
                 let tdd = self.tdd(preferencesData: preferencesData)
-                if let insulin = tdd, (insulin.basal + insulin.bolus) > 0 {
+                if let insulin = tdd, insulin.hours > 0 {
                     CoreDataStorage().saveTDD(insulin)
                 }
                 let dynamicVariables = self.dynamicVariables(preferencesData)
@@ -256,26 +286,29 @@ final class OpenAPS {
     private func reasons(
         reason: String,
         suggestion: Suggestion,
-        preferences: Preferences?,
-        profile: RawJSON
+        preferences _: Preferences?,
+        profile: RawJSON,
+        tdd: InsulinDistribution?
     ) -> String {
         var reasonString = reason
         let startIndex = reasonString.startIndex
-        let tdd = tdd(preferencesData: preferences)
 
         // Autosens.ratio / Dynamic Ratios
         if let isf = suggestion.sensitivityRatio {
             // TDD
             var tddString = ""
-            if let total = tdd {
-                let round = round(Double((total.bolus + total.basal) * 10)) / 10
-                let bolus = Int(total.bolus * 100 / ((total.bolus + total.basal) != 0 ? total.bolus + total.basal : 1))
-                tddString = ", TDD: \(round) U, \(bolus) % Bolus, "
+            if let tdd = tdd {
+                let total = ((tdd.bolus ?? 0) as Decimal) + ((tdd.tempBasal ?? 0) as Decimal)
+                let round = round(Double(total * 10)) / 10
+
+                let bolus = Int(((tdd.bolus ?? 0) as Decimal) * 100 / (total != 0 ? total : 1))
+
+                tddString = ", Insulin 24h: \(round) U, \(bolus) % Bolus, "
             } else {
                 tddString = ", "
             }
             // Dynamic
-            if preferences?.useNewFormula ?? false {
+            if let notDisabled = readJSON(json: profile, variable: "useNewFormula"), Bool(notDisabled) ?? false {
                 var insertedResons = "Dynamic Ratio: \(isf)"
                 if let algorithm = readJSON(json: profile, variable: "sigmoid"), Bool(algorithm) ?? false {
                     insertedResons += ", Sigmoid function"
@@ -288,12 +321,12 @@ final class OpenAPS {
                     insertedResons += ", AF: \(value)"
                 }
                 if let dynamicCR = readJSON(json: profile, variable: "enableDynamicCR"), Bool(dynamicCR) ?? false {
-                    insertedResons += ", Dynamic ISF/CR: On/On"
+                    insertedResons += ", Dynamic ISF/CR is: On/On"
                 } else {
-                    insertedResons += ", Dynamic ISF/CR: On/Off"
+                    insertedResons += ", Dynamic ISF/CR is: On/Off"
                 }
                 if let tddFactor = readMiddleware(json: profile, variable: "tdd_factor"), tddFactor.count > 1 {
-                    insertedResons += ", Basal Adjustment: \(tddFactor)"
+                    insertedResons += ", Basal Adjustment: \(tddFactor.suffix(max(tddFactor.count - 6, 0)))"
                 }
 
                 insertedResons += tddString
@@ -302,9 +335,23 @@ final class OpenAPS {
             } else {
                 reasonString.insert(contentsOf: "Autosens Ratio: \(isf)" + tddString, at: startIndex)
             }
+
+            // Include ISF before eventual adjustment
+            if let old = readMiddleware(json: profile, variable: "old_isf"),
+               let new = readReason(reason: reason, variable: "ISF"), let oldISF = trimmedIsEqual(string: old, decimal: new)
+            {
+                reasonString = reasonString.replacingOccurrences(of: "ISF:", with: "ISF: \(oldISF) →")
+            }
+
+            // Include CR before eventual adjustment
+            if let old = readMiddleware(json: profile, variable: "old_cr"),
+               let new = readReason(reason: reason, variable: "CR"), let oldCR = trimmedIsEqual(string: old, decimal: new)
+            {
+                reasonString = reasonString.replacingOccurrences(of: "CR:", with: "CR: \(oldCR) →")
+            }
         }
 
-        // Dsiplay either Target or Override (where target is included).
+        // Display either Target or Override (where target is included).
         let targetGlucose = suggestion.targetBG
         if targetGlucose != nil, let or = OverrideStorage().fetchLatestOverride().first, or.enabled {
             var orString = ", Override:"
@@ -361,6 +408,7 @@ final class OpenAPS {
                 saveSuggestion.cob = cob as NSDecimalNumber
                 saveSuggestion.target = target as NSDecimalNumber
                 saveSuggestion.minPredBG = minPredBG as NSDecimalNumber
+                saveSuggestion.eventualBG = Decimal(suggestion.eventualBG ?? 100) as NSDecimalNumber
                 saveSuggestion.date = Date.now
 
                 try? coredataContext.save()
@@ -370,6 +418,33 @@ final class OpenAPS {
         }
 
         return reasonString
+    }
+
+    private func trimmedIsEqual(string: String, decimal: Decimal) -> String? {
+        let old = string.replacingOccurrences(of: ": ", with: "").replacingOccurrences(of: "f", with: "")
+        let new = "\(decimal)"
+
+        guard old != new else {
+            return nil
+        }
+        return old
+    }
+
+    private func overrideBasal(alteredProfile: RawJSON, oref0Suggestion: Suggestion) -> Suggestion? {
+        guard let changeRate = readJSON(json: alteredProfile, variable: "set_basal"), Bool(changeRate) ?? false,
+              let basal_rate_is = readJSON(json: alteredProfile, variable: "basal_rate") else { return nil }
+
+        var returnSuggestion = oref0Suggestion
+        let basal_rate = Decimal(string: basal_rate_is) ?? 0
+        returnSuggestion.rate = basal_rate
+        returnSuggestion.duration = 30
+        var reasonString = oref0Suggestion.reason
+        let endIndex = reasonString.endIndex
+        let insertedResons: String = reasonString + "\n\nBasal Rate overridden in middleware to: \(basal_rate) U/h"
+        reasonString.insert(contentsOf: insertedResons, at: endIndex)
+        returnSuggestion.reason = reasonString
+
+        return returnSuggestion
     }
 
     private func readJSON(json: RawJSON, variable: String) -> String? {
@@ -397,20 +472,17 @@ final class OpenAPS {
 
     private func readMiddleware(json: RawJSON, variable: String) -> String? {
         if let string = json.debugDescription.components(separatedBy: ",").filter({ $0.contains(variable) }).first {
-            let targetComponents = string.components(separatedBy: ":")
-            if targetComponents.count == 2 {
-                let trimmedString = targetComponents[1].trimmingCharacters(in: .whitespacesAndNewlines)
-                    .replacingOccurrences(of: "\\n", with: "")
-                    .replacingOccurrences(of: "\\", with: "")
-                    .replacingOccurrences(of: "}", with: "")
-                    .replacingOccurrences(
-                        of: "\"",
-                        with: "",
-                        options: NSString.CompareOptions.literal,
-                        range: nil
-                    )
-                return trimmedString
-            }
+            let trimmedString = string.suffix(max(string.count - 14, 0)).trimmingCharacters(in: .whitespacesAndNewlines)
+                .replacingOccurrences(of: "\\n", with: "")
+                .replacingOccurrences(of: "\\", with: "")
+                .replacingOccurrences(of: "}", with: "")
+                .replacingOccurrences(
+                    of: "\"",
+                    with: "",
+                    options: NSString.CompareOptions.literal,
+                    range: nil
+                )
+            return trimmedString
         }
         return nil
     }
@@ -435,17 +507,33 @@ final class OpenAPS {
             let disableCGMError = settingsData?.disableCGMError ?? true
 
             let cd = CoreDataStorage()
+            let os = OverrideStorage()
             // TDD
             let uniqueEvents = cd.fetchTDD(interval: DateFilter().tenDays)
             // Temp Targets using slider
             let sliderArray = cd.fetchTempTargetsSlider()
             // Overrides
-            let overrideArray = OverrideStorage().fetchNumberOfOverrides(numbers: 2)
+            let overrideArray = os.fetchNumberOfOverrides(numbers: 2)
             // Temp Target
             let tempTargetsArray = cd.fetchTempTargets()
 
-            let total = uniqueEvents.compactMap({ each in each.tdd as? Decimal ?? 0 }).reduce(0, +)
-            var indeces = uniqueEvents.count
+            // Time adjusted average
+            var time = uniqueEvents.first?.timestamp ?? .distantPast
+            var data_ = [tddData(date: time, tdd: (uniqueEvents.first?.tdd ?? 0) as Decimal)]
+
+            for a in uniqueEvents {
+                if a.timestamp ?? .distantFuture <= time.addingTimeInterval(-24.hours.timeInterval) {
+                    let b = tddData(
+                        date: a.timestamp ?? .distantFuture,
+                        tdd: (a.tdd ?? 0) as Decimal
+                    )
+                    data_.append(b)
+                    time = a.timestamp ?? .distantPast
+                }
+            }
+            let total = data_.map(\.tdd).reduce(0, +)
+            let indeces = data_.count
+
             // Only fetch once. Use same (previous) fetch
             let twoHoursArray = uniqueEvents
                 .filter({ ($0.timestamp ?? Date()) >= Date.now.addingTimeInterval(-2.hours.timeInterval) })
@@ -462,9 +550,11 @@ final class OpenAPS {
             let overrideMaxIOB = overrideArray.first?.overrideMaxIOB ?? false
             let maxIOB = overrideArray.first?.maxIOB ?? (preferences?.maxIOB ?? 0) as NSDecimalNumber
 
-            if indeces == 0 {
-                indeces = 1
+            var name = ""
+            if useOverride, overrideArray.first?.isPreset ?? false, let overridePreset = os.isPresetName() {
+                name = overridePreset
             }
+
             if nrOfIndeces == 0 {
                 nrOfIndeces = 1
             }
@@ -544,7 +634,8 @@ final class OpenAPS {
                 uamMinutes: (overrideArray.first?.uamMinutes ?? uamMinutes) as Decimal,
                 maxIOB: maxIOB as Decimal,
                 overrideMaxIOB: overrideMaxIOB,
-                disableCGMError: disableCGMError
+                disableCGMError: disableCGMError,
+                preset: name
             )
             storage.save(averages, as: OpenAPS.Monitor.dynamicVariables)
             return self.loadFileFromStorage(name: Monitor.dynamicVariables)
@@ -721,8 +812,8 @@ final class OpenAPS {
         dispatchPrecondition(condition: .onQueue(processQueue))
         return jsWorker.inCommonContext { worker in
             worker.evaluate(script: Script(name: Prepare.log))
-            worker.evaluate(script: Script(name: Bundle.profile))
             worker.evaluate(script: Script(name: Prepare.profile))
+            worker.evaluate(script: Script(name: Bundle.profile))
             return worker.call(
                 function: Function.generate,
                 with: [
@@ -755,6 +846,7 @@ final class OpenAPS {
     ) -> RawJSON {
         dispatchPrecondition(condition: .onQueue(processQueue))
         return jsWorker.inCommonContext { worker in
+            worker.evaluate(script: Script(name: Prepare.log))
             worker.evaluate(script: Script(name: Prepare.string))
 
             if let middleware = self.middlewareScript(name: OpenAPS.Middleware.determineBasal) {
